@@ -1,0 +1,16 @@
+* SICP homeworks
+
+This is only an useless and boring repository to record my solutions of SICP.
+
+As a proof that I'm still alive on this world and indeed spending time learning something.
+
+Life is short.
+
+-- ono hiroko [2016-02-05 金 23:04] @ Jingueshi, Taiwan
+
+** Info
+1. Use Guile (R6RS) as platform.
+2. I've understand Emacs Lisp before reading SICP, so my solutions may contains some elements that exceed the range of the chapter have taught.
+
+** License
+WTFPL whatever version
