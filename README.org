@@ -11,6 +11,7 @@ Life is short.
 ** Info
 1. Use Guile (R6RS) as platform.
 2. I've understand Emacs Lisp before reading SICP, so my solutions may contains some elements that exceed the range of the chapter have taught.
+3. I may not find answer after solving questions, if I have no interest on it. This homework is just for fun (may be along with training my stupid brain). So my solution may contains mistakes.
 
 ** License
 WTFPL whatever version
