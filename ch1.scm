@@ -325,9 +325,9 @@ h(n) = 2^(2^n)
         (iterator y (+ x y) (1- n))))
   (iterator 0 1 n))
 
-;;======================================================
-;; Count Change
-;;======================================================
+;;------------------------------------------------------
+;; Count
+;;------------------------------------------------------
 
 ;; Tree recursive
 (define (change money)
@@ -385,6 +385,43 @@ h(n) = 2^(2^n)
                                                         (list-ref recorder 2)) recorder)))))
   (iter 0 n '(0)))
 
-(g 1)
 (map g '(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20))
 ;; (0 1 2 3 6 11 20 37 68 125 230 423 778 1431 2632 4841 8904 16377 30122 55403 101902)
+
+;;======================================================
+;; 1-12                   [2016-02-08 月 00:03 -- 00:56]
+;;======================================================
+
+;; "Write a procedure that computes elements of Pascal's triangle by
+;; means of a recursive process"
+
+;; ...I don't understand what the question means.
+
+#| ((1)
+    (1 1)
+    (1 2 1)
+    (1 3 3 1)
+    (1 4 6 4 1))  |#
+
+;; Iterative
+(define (pascal-triangle n)
+  (define (iterator row-index until stack)
+    (cond ((<= until 0) '())
+          ((= until 1)  '(1))
+          ((= row-index (1- until)) (reverse stack))
+          (else (iterator (1+ row-index)
+                          until
+                          (cons (get-row (car stack))
+                                                stack)))))
+  (define (get-row previous-row)
+    (append '(1) (iter-row 0 previous-row '()) '(1)))
+  (define (iter-row i list result)
+    (cond ((= i (- (length list) 1)) (reverse result)) ;reverse can be removed
+          (else (iter-row (1+ i)
+                      list
+                      (cons (+ (list-ref list i)
+                               (list-ref list (1+ i))) result)))))
+  (iterator 0 n '((1))))
+
+(pascal-triangle 5)
+;; => ((1) (1 1) (1 2 1) (1 3 3 1) (1 4 6 4 1))
