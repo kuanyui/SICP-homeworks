@@ -326,6 +326,65 @@ h(n) = 2^(2^n)
   (iterator 0 1 n))
 
 ;;======================================================
-;;
+;; Count Change
 ;;======================================================
 
+;; Tree recursive
+(define (change money)
+  (define (iter coin-type-index remainder)
+    ;; Two end conditions:
+    (cond ((= remainder 0) 1) ;if remainder = 0, it's an available change (1)
+          ((or (< remainder 0) ;if remainder < 0, it's a wrong change (0)) 
+               (= coin-type-index 0))   ;...Or an invalid type coin
+           0)
+          ;; Still remain some money
+          (else (+
+                 ;; Still try to change with the current coin
+                 (iter coin-type-index (- remainder (get-coin coin-type-index)))
+                 ;; Try to change with another type coin
+                 (iter (1- coin-type-index) remainder)))))
+  (define (get-coin coin-type-index)
+    (cond ((= coin-type-index 5) 50)
+          ((= coin-type-index 4) 25)
+          ((= coin-type-index 3) 10)
+          ((= coin-type-index 2) 5)
+          ((= coin-type-index 1) 1)))
+  (iter 5 money))
+
+
+;;======================================================
+;; 1-11                            [2016-02-07 日 23:53]
+;;======================================================
+
+;; Recursive
+(define (f n)
+  (cond ((< n 3) n)
+        ((>= n 3) (+ (f (- n 1))
+                     (f (- n 2))
+                     (f (- n 3))))))
+
+(map f '(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20))
+;;      (0 1 2 3 6 11 20 37 68 125 230 423 778 1431 2632 4841 8904 16377 30122 55403 101902)
+
+;; Iterative (Tail-recursive)
+#|
+(iter 0 6 (0))
+(iter 1 6 (1 0))
+(iter 2 6 (2 1 0))
+(iter 3 6 (3 2 1 0))
+(iter 4 6 (6 3 2 1 0))
+(iter 5 6 (11 6 3 2 1 0))
+(iter 6 6 (20 11 6 3 2 1 0))
+|#
+(define (g n)
+  (define (iter index until recorder)
+    (cond ((> index until) (car recorder))
+          ((< index 3) (iter (1+ index) until (cons index recorder)))
+          ((>= index 3) (iter (1+ index) until (cons (+ (list-ref recorder 0)
+                                                        (list-ref recorder 1)
+                                                        (list-ref recorder 2)) recorder)))))
+  (iter 0 n '(0)))
+
+(g 1)
+(map g '(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20))
+;; (0 1 2 3 6 11 20 37 68 125 230 423 778 1431 2632 4841 8904 16377 30122 55403 101902)
